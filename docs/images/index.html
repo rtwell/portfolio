@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ryan Thurlwell | Works</title>
+  <meta name="description" content="Works by Ryan Thurlwell.">
+  <meta name="theme-color" content="#fafaf7">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Ryan Thurlwell | Works">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="Works by Ryan Thurlwell.">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='20' fill='%23fafaf7' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+  <link rel="preload" as="fetch" href="paintings.json" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="index.html">
+      <span class="wordmark__name">Ryan Thurlwell</span>
+      <span class="wordmark__sep">|</span>
+      <span class="wordmark__sub">Works</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html" class="is-active" aria-current="page">Work</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section id="work" class="work">
+      <div class="grid" id="grid" role="list">
+        <!-- Cards injected by main.js -->
+      </div>
+      <p class="grid__empty" id="grid-empty" hidden>
+        No paintings yet. Drop images into the <code>Paintings/</code> folder
+        and run <code>python3 build.py</code>.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span id="year"></span> Ryan Thurlwell</span>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

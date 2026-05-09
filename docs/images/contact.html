@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contact | Ryan Thurlwell</title>
+  <meta name="description" content="Get in touch with Ryan Thurlwell.">
+  <meta name="theme-color" content="#fafaf7">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='20' fill='%23fafaf7' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="page-contact">
+  <header class="site-header">
+    <a class="wordmark" href="index.html">
+      <span class="wordmark__name">Ryan Thurlwell</span>
+      <span class="wordmark__sep">|</span>
+      <span class="wordmark__sub">Works</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html">Work</a>
+      <a href="contact.html" class="is-active" aria-current="page">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="contact-page">
+      <h1 class="contact-page__title">Contact</h1>
+      <p class="contact-page__intro">
+        For inquiries, commissions, and studio visits — drop a note.
+      </p>
+
+      <!--
+        Form action: replace REPLACE_WITH_YOUR_FORM_ID with the endpoint
+        Formspree gives you (e.g. mqkwlbrn). See README for setup.
+      -->
+      <form class="form" id="contact-form" method="POST"
+            action="https://formspree.io/f/mjgladrk">
+        <label class="form__field">
+          <span class="form__label">Name</span>
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+
+        <label class="form__field">
+          <span class="form__label">Email</span>
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+
+        <label class="form__field">
+          <span class="form__label">Message</span>
+          <textarea name="message" rows="6" required></textarea>
+        </label>
+
+        <!-- Honeypot: bots fill it, humans don't see it -->
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+               aria-hidden="true" style="position:absolute;left:-9999px;">
+
+        <div class="form__row">
+          <button class="form__submit" type="submit" id="form-submit">Send</button>
+          <p class="form__status" id="form-status" hidden aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span id="year"></span> Ryan Thurlwell</span>
+  </footer>
+
+  <script>
+    (() => {
+      'use strict';
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      const form   = document.getElementById('contact-form');
+      const btn    = document.getElementById('form-submit');
+      const status = document.getElementById('form-status');
+
+      function setStatus(msg, kind) {
+        status.textContent = msg;
+        status.className = 'form__status form__status--' + kind;
+        status.hidden = false;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Guard against an unconfigured form action.
+        if (form.action.includes('REPLACE_WITH_YOUR_FORM_ID')) {
+          setStatus('Form not configured yet — see README for setup.', 'err');
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        status.hidden = true;
+
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' },
+          });
+          if (res.ok) {
+            form.reset();
+            setStatus('Thanks — your message is on its way.', 'ok');
+          } else {
+            const data = await res.json().catch(() => ({}));
+            const msg = (data.errors && data.errors.length)
+              ? data.errors.map(e => e.message).join(', ')
+              : 'Something went wrong. Please try again.';
+            setStatus(msg, 'err');
+          }
+        } catch {
+          setStatus('Network error. Please try again.', 'err');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Send';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
